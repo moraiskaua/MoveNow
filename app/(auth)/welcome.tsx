@@ -9,6 +9,7 @@ import Swiper from 'react-native-swiper';
 
 const Welcome = () => {
   const [activeIndex, setActiveIndex] = useState(0);
+  const isLastSlide = activeIndex === onboarding.length - 1;
   const swiperRef = useRef<Swiper>(null);
 
   return (
@@ -46,7 +47,15 @@ const Welcome = () => {
         ))}
       </Swiper>
 
-      <CustomButton title="Próximo" className="w-11/12 mt-10" />
+      <CustomButton
+        title={isLastSlide ? 'Começar' : 'Próximo'}
+        onPress={() =>
+          isLastSlide
+            ? router.replace(routes.auth['sign-up'])
+            : swiperRef.current?.scrollBy(1)
+        }
+        className="w-11/12 mb-7"
+      />
     </SafeAreaView>
   );
 };
