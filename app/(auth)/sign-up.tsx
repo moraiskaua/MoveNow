@@ -182,7 +182,7 @@ const Signup = () => {
               title="Começar"
               onPress={() => {
                 setShowSuccessModal(false);
-                router.push(routes.root.home);
+                router.push(routes.root.tabs.home);
               }}
               className="mt-5"
             />

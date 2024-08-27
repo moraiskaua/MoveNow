@@ -5,7 +5,10 @@ export const routes = {
     'sign-up': '/(auth)/sign-up',
   },
   root: {
-    home: '/(root)/(tabs)/home',
     'find-ride': '/(root)/find-ride',
+    'confirm-ride': '/(root)/confirm-ride',
+    tabs: {
+      home: '/(root)/(tabs)/home',
+    },
   },
 };
