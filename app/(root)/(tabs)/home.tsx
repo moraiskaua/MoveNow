@@ -16,6 +16,8 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { router } from 'expo-router';
+import { routes } from '@/contants/routes';
 
 const Home = () => {
   const { setUserLocation, setDestinationLocation } = useLocationStore();
@@ -46,7 +48,14 @@ const Home = () => {
   }, []);
 
   const handleSignOut = () => {};
-  const handleDestinationPress = () => {};
+  const handleDestinationPress = (location: {
+    latitude: number;
+    longitude: number;
+    address: string;
+  }) => {
+    setDestinationLocation(location);
+    router.push(routes.root['find-ride']);
+  };
 
   return (
     <SafeAreaView className="flex-1">

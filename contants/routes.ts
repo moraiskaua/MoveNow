@@ -6,5 +6,6 @@ export const routes = {
   },
   root: {
     home: '/(root)/(tabs)/home',
+    'find-ride': '/(root)/find-ride',
   },
 };
