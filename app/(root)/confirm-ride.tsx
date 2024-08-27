@@ -4,7 +4,7 @@ import { RideLayout } from '@/components/RideLayout';
 import { routes } from '@/contants/routes';
 import { useDriverStore } from '@/store/locationStore';
 import { router } from 'expo-router';
-import { FlatList, Text, View } from 'react-native';
+import { FlatList, View } from 'react-native';
 
 const ConfirmRide = () => {
   const { drivers, selectedDriver, setSelectedDriver } = useDriverStore();
@@ -17,7 +17,7 @@ const ConfirmRide = () => {
           <DriverCard
             item={item}
             selected={selectedDriver!}
-            setSelected={() => setSelectedDriver(item.id)}
+            setSelected={() => setSelectedDriver(Number(item.id))}
           />
         )}
         ListFooterComponent={() => (

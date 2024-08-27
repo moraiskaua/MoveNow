@@ -5,8 +5,7 @@ import { useEffect } from 'react';
 import 'react-native-reanimated';
 import { ClerkProvider, ClerkLoaded } from '@clerk/clerk-expo';
 import { tokenCache } from '@/lib/auth';
-
-const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY!;
+import { env } from '@/contants/env';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -21,7 +20,7 @@ export default function RootLayout() {
     'Jakarta-SemiBold': require('../assets/fonts/PlusJakartaSans-SemiBold.ttf'),
   });
 
-  if (!publishableKey) {
+  if (!env.PUBLISHABLE_CLERK_KEY) {
     throw new Error(
       'Missing Publishable Key. Please set EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY in your .env',
     );
@@ -38,7 +37,10 @@ export default function RootLayout() {
   }
 
   return (
-    <ClerkProvider publishableKey={publishableKey} tokenCache={tokenCache}>
+    <ClerkProvider
+      publishableKey={env.PUBLISHABLE_CLERK_KEY}
+      tokenCache={tokenCache}
+    >
       <ClerkLoaded>
         <Stack>
           <Stack.Screen name="index" options={{ headerShown: false }} />

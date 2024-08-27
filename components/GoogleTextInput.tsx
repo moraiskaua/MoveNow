@@ -2,6 +2,7 @@ import { GoogleInputProps } from '@/types/type';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { Image, Text, View } from 'react-native';
 import { icons } from '@/contants';
+import { env } from '@/contants/env';
 
 export const GoogleTextInput = ({
   icon,
@@ -52,7 +53,7 @@ export const GoogleTextInput = ({
         })
       }
       query={{
-        key: process.env.EXPO_PUBLIC_GOOGLE_API_KEY,
+        key: env.GOOGLE_API_KEY,
         language: 'pt-BR',
       }}
       renderLeftButton={() => (

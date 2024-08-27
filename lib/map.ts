@@ -1,6 +1,7 @@
+import { env } from '@/contants/env';
 import { Driver, MarkerData } from '@/types/type';
 
-const directionsAPI = process.env.EXPO_PUBLIC_GOOGLE_API_KEY;
+const directionsAPI = env.GOOGLE_API_KEY;
 
 export const generateMarkersFromData = ({
   data,
