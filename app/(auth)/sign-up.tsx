@@ -5,6 +5,7 @@ import { routes } from '@/contants/routes';
 import { Link } from 'expo-router';
 import { useState } from 'react';
 import { Image, ScrollView, Text, View } from 'react-native';
+import OAuth from './OAuth';
 
 const Signup = () => {
   const [form, setForm] = useState({
@@ -18,9 +19,9 @@ const Signup = () => {
   return (
     <ScrollView className="flex-1 bg-white">
       <View className="flex-1 bg-white">
-        <View className="relative w-full h-[250px]">
-          <Image source={images.signUpCar} className="z-0 w-full h-[250px]" />
-          <Text className="text-2xl text-black font-JakartaSemiBold absolute bottom-5 left-5">
+        <View className="relative w-full h-[150px]">
+          <Image source={images.signUpCar} className="z-0 w-full h-[150px]" />
+          <Text className="text-2xl text-black font-JakartaSemiBold absolute bottom-3 left-3">
             Crie sua conta
           </Text>
         </View>
@@ -55,7 +56,7 @@ const Signup = () => {
             className="mt-6"
           />
 
-          {/* OAUTH */}
+          <OAuth />
 
           <Link
             href={routes.auth['sign-in']}
