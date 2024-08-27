@@ -49,7 +49,7 @@ export const Payment = ({
               body: JSON.stringify({
                 name: fullName || email.split('@')[0],
                 email,
-                amount,
+                amount: parseInt(amount) * 100,
                 paymentMethodId: paymentMethod.id,
               }),
             },
@@ -65,6 +65,7 @@ export const Payment = ({
                 payment_method_id: paymentMethod.id,
                 payment_intent_id: paymentIntent.id,
                 customer_id: customer,
+                client_secret: paymentIntent.client_secret,
               }),
             });
 
