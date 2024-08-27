@@ -11,6 +11,7 @@ import { useSignIn } from '@clerk/clerk-expo';
 
 const Signin = () => {
   const { isLoaded, signIn, setActive } = useSignIn();
+  const [error, setError] = useState('');
   const router = useRouter();
   const [form, setForm] = useState({
     email: '',
@@ -33,7 +34,7 @@ const Signin = () => {
         console.error(JSON.stringify(signInAttempt, null, 2));
       }
     } catch (err: any) {
-      console.error(JSON.stringify(err, null, 2));
+      setError(err.errors[0].longMessage);
     }
   }, [isLoaded, form.email, form.password]);
 
@@ -63,6 +64,7 @@ const Signin = () => {
             onChangeText={(password: string) => setForm({ ...form, password })}
             secureTextEntry
           />
+          {error && <Text className="text-sm text-red-500">{error}</Text>}
 
           <CustomButton
             title="Entrar"

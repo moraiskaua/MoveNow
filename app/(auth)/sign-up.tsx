@@ -8,6 +8,7 @@ import { Image, ScrollView, Text, View } from 'react-native';
 import OAuth from './OAuth';
 import { useSignUp } from '@clerk/clerk-expo';
 import ReactNativeModal from 'react-native-modal';
+import { fetchAPI } from '@/lib/fetch';
 
 const Signup = () => {
   const { isLoaded, signUp, setActive } = useSignUp();
@@ -50,7 +51,14 @@ const Signup = () => {
       });
 
       if (completeSignUp.status === 'complete') {
-        // TODO: Create user
+        await fetchAPI('/(api)/user', {
+          method: 'POST',
+          body: JSON.stringify({
+            name: form.name,
+            email: form.email,
+            clerkId: completeSignUp.createdUserId,
+          }),
+        });
         await setActive({ session: completeSignUp.createdSessionId });
         setVerification({ ...verification, state: 'success' });
       } else {
