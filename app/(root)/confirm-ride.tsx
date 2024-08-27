@@ -25,6 +25,7 @@ const ConfirmRide = () => {
             <CustomButton
               title="Escolher"
               onPress={() => router.push(routes.root['book-ride'])}
+              disabled={!selectedDriver}
             />
           </View>
         )}

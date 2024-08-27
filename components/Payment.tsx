@@ -1,4 +1,3 @@
-import { Alert, Text, View } from 'react-native';
 import { CustomButton } from './CustomButton';
 import { useState } from 'react';
 import { useStripe } from '@stripe/stripe-react-native';
@@ -6,8 +5,6 @@ import { useAuth } from '@clerk/clerk-expo';
 import { useLocationStore } from '@/store/locationStore';
 import { PaymentProps } from '@/types/type';
 import { fetchAPI } from '@/lib/fetch';
-import { Result } from '@stripe/stripe-react-native/lib/typescript/src/types/Token';
-import { IntentCreationCallbackParams } from '@stripe/stripe-react-native/lib/typescript/src/types/PaymentSheet';
 
 export const Payment = ({
   fullName,
@@ -61,15 +58,31 @@ export const Payment = ({
         }),
       },
     );
+
+    if (paymentIntent.client_secret) {
+      const { result } = await fetchAPI('/(api)/(stripe)/pay', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          payment_method_id: paymentMethod.id,
+          payment_intent_id: paymentIntent.id,
+          customer_id: customer,
+        }),
+      });
+
+      if (result.client_secret) {
+        //
+      }
+    }
   };
 
   const openPaymentSheet = async () => {
     await initializePaymentSheet();
     const { error } = await presentPaymentSheet();
 
-    if (error) {
-      Alert.alert(`Error code: ${error.code}, ${error.message}`);
-    } else {
+    if (!error) {
       setSuccess(true);
     }
   };

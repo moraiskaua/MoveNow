@@ -1,13 +1,20 @@
 import { icons } from '@/contants';
-import { drivers } from '@/contants/drivers';
-import { calculateRegion, generateMarkersFromData } from '@/lib/map';
+import { env } from '@/contants/env';
+import { useFetch } from '@/lib/fetch';
+import {
+  calculateDriverTimes,
+  calculateRegion,
+  generateMarkersFromData,
+} from '@/lib/map';
 import { useDriverStore, useLocationStore } from '@/store/locationStore';
-import { MarkerData } from '@/types/type';
+import { Driver, MarkerData } from '@/types/type';
 import { useEffect, useState } from 'react';
-import { Text, View } from 'react-native';
+import { ActivityIndicator, Text, View } from 'react-native';
 import MapView, { Marker, PROVIDER_DEFAULT } from 'react-native-maps';
+import MapViewDirections from 'react-native-maps-directions';
 
 export const Map = () => {
+  const { data: drivers, loading, error } = useFetch<Driver[]>('/(api)/driver');
   const {
     userLongitude,
     userLatitude,
@@ -18,7 +25,6 @@ export const Map = () => {
   const [markers, setMarkers] = useState<MarkerData[]>([]);
 
   useEffect(() => {
-    setDrivers(drivers);
     if (Array.isArray(drivers)) {
       if (!userLatitude || !userLongitude) return;
 
@@ -30,7 +36,19 @@ export const Map = () => {
 
       setMarkers(newMarkers);
     }
-  }, [drivers]);
+  }, [drivers, userLatitude, userLongitude]);
+
+  useEffect(() => {
+    if (markers.length > 0 && destinationLatitude && destinationLongitude) {
+      calculateDriverTimes({
+        markers,
+        userLongitude,
+        userLatitude,
+        destinationLatitude,
+        destinationLongitude,
+      }).then(drivers => setDrivers(drivers as MarkerData[]));
+    }
+  }, [markers, destinationLatitude, destinationLongitude]);
 
   const region = calculateRegion({
     userLongitude,
@@ -38,6 +56,22 @@ export const Map = () => {
     destinationLongitude,
     destinationLatitude,
   });
+
+  if (loading || !userLatitude || !userLongitude) {
+    return (
+      <View className="flex justify-between items-center w-full">
+        <ActivityIndicator size="small" color="#000" />
+      </View>
+    );
+  }
+
+  if (error) {
+    return (
+      <View className="flex justify-between items-center w-full">
+        <Text>Error: {error}</Text>
+      </View>
+    );
+  }
 
   return (
     <MapView
@@ -63,6 +97,30 @@ export const Map = () => {
           }
         />
       ))}
+
+      {destinationLatitude && destinationLongitude && (
+        <>
+          <Marker
+            key="destination"
+            coordinate={{
+              latitude: destinationLatitude,
+              longitude: destinationLongitude,
+            }}
+            title="Destino"
+          />
+
+          <MapViewDirections
+            origin={{ latitude: userLatitude, longitude: userLongitude }}
+            destination={{
+              latitude: destinationLatitude,
+              longitude: destinationLongitude,
+            }}
+            apikey={env.GOOGLE_API_KEY!}
+            strokeColor="#0286FF"
+            strokeWidth={2}
+          />
+        </>
+      )}
     </MapView>
   );
 };

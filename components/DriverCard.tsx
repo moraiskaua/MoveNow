@@ -43,7 +43,7 @@ export const DriverCard = ({
           </Text>
 
           <Text className="text-sm font-JakartaRegular text-general-800">
-            {formatTime(item.time || 5)}
+            {formatTime(parseInt(`${item.time}`))}
           </Text>
 
           <Text className="text-sm font-JakartaRegular text-general-800 mx-1">

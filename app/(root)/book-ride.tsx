@@ -65,7 +65,7 @@ const BookRide = () => {
             <View className="flex flex-row items-center justify-between w-full border-b border-white py-2">
               <Text className="text-lg font-JakartaRegular">Tempo</Text>
               <Text className="text-lg font-JakartaRegular">
-                {formatTime(driverDetails?.time! || 5)}
+                {formatTime(parseInt(`${driverDetails?.time}`))}
               </Text>
             </View>
 
@@ -80,14 +80,20 @@ const BookRide = () => {
           <View className="flex flex-col w-full items-start justify-center mt-5">
             <View className="flex flex-row items-center justify-start mt-3 border-t border-b border-general-700 w-full py-3">
               <Image source={icons.to} className="w-6 h-6" />
-              <Text className="text-lg font-JakartaRegular ml-2">
+              <Text
+                className="text-lg font-JakartaRegular ml-2"
+                numberOfLines={1}
+              >
                 {userAddress}
               </Text>
             </View>
 
             <View className="flex flex-row items-center justify-start border-b border-general-700 w-full py-3">
               <Image source={icons.point} className="w-6 h-6" />
-              <Text className="text-lg font-JakartaRegular ml-2">
+              <Text
+                className="text-lg font-JakartaRegular ml-2"
+                numberOfLines={1}
+              >
                 {destinationAddress}
               </Text>
             </View>
