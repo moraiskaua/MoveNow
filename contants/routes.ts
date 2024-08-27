@@ -4,4 +4,7 @@ export const routes = {
     'sign-in': '/(auth)/sign-in',
     'sign-up': '/(auth)/sign-up',
   },
+  root: {
+    home: '/(root)/(tabs)/home',
+  },
 };

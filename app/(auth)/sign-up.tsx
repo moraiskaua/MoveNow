@@ -6,15 +6,67 @@ import { Link } from 'expo-router';
 import { useState } from 'react';
 import { Image, ScrollView, Text, View } from 'react-native';
 import OAuth from './OAuth';
+import { useSignUp } from '@clerk/clerk-expo';
 
 const Signup = () => {
+  const { isLoaded, signUp, setActive } = useSignUp();
+  const [verification, setVerification] = useState({
+    state: 'default',
+    error: '',
+    code: '',
+  });
   const [form, setForm] = useState({
     name: '',
     email: '',
     password: '',
   });
 
-  const handleSignUp = async () => {};
+  const handleSignUp = async () => {
+    if (!isLoaded) {
+      return;
+    }
+
+    try {
+      await signUp.create({
+        emailAddress: form.email,
+        password: form.password,
+      });
+
+      await signUp.prepareEmailAddressVerification({ strategy: 'email_code' });
+
+      setVerification({ ...verification, state: 'pending' });
+    } catch (err: any) {
+      console.error(JSON.stringify(err, null, 2));
+    }
+  };
+
+  const onPressVerify = async () => {
+    if (!isLoaded) return;
+
+    try {
+      const completeSignUp = await signUp.attemptEmailAddressVerification({
+        code: verification.code,
+      });
+
+      if (completeSignUp.status === 'complete') {
+        // TODO: Create user
+        await setActive({ session: completeSignUp.createdSessionId });
+        setVerification({ ...verification, state: 'success' });
+      } else {
+        setVerification({
+          ...verification,
+          error: 'A verificação falhou',
+          state: 'failed',
+        });
+      }
+    } catch (err: any) {
+      setVerification({
+        ...verification,
+        error: err.errors[0].longMessage,
+        state: 'failed',
+      });
+    }
+  };
 
   return (
     <ScrollView className="flex-1 bg-white">
