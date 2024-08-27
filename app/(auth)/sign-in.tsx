@@ -3,18 +3,39 @@ import { InputField } from '@/components/InputField';
 import { Image, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import OAuth from './OAuth';
-import { Link } from 'expo-router';
+import { Link, useRouter } from 'expo-router';
 import { routes } from '@/contants/routes';
 import { icons, images } from '@/contants';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
+import { useSignIn } from '@clerk/clerk-expo';
 
 const Signin = () => {
+  const { isLoaded, signIn, setActive } = useSignIn();
+  const router = useRouter();
   const [form, setForm] = useState({
     email: '',
     password: '',
   });
 
-  const handleSignIn = async () => {};
+  const handleSignIn = useCallback(async () => {
+    if (!isLoaded) return;
+
+    try {
+      const signInAttempt = await signIn.create({
+        identifier: form.email,
+        password: form.password,
+      });
+
+      if (signInAttempt.status === 'complete') {
+        await setActive({ session: signInAttempt.createdSessionId });
+        router.replace('/');
+      } else {
+        console.error(JSON.stringify(signInAttempt, null, 2));
+      }
+    } catch (err: any) {
+      console.error(JSON.stringify(err, null, 2));
+    }
+  }, [isLoaded, form.email, form.password]);
 
   return (
     <ScrollView className="flex-1 bg-white">
