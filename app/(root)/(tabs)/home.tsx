@@ -3,7 +3,6 @@ import * as Location from 'expo-location';
 import { Map } from '@/components/Map';
 import { RideCard } from '@/components/RideCard';
 import { icons, images } from '@/contants';
-import { recentRides } from '@/contants/recentRides';
 import { useLocationStore } from '@/store/locationStore';
 import { useUser } from '@clerk/clerk-expo';
 import { useEffect, useState } from 'react';
@@ -18,12 +17,18 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import { routes } from '@/contants/routes';
+import { useFetch } from '@/lib/fetch';
+import { Ride } from '@/types/type';
 
 const Home = () => {
   const { setUserLocation, setDestinationLocation } = useLocationStore();
   const [hasPermissions, setHasPermissions] = useState(false);
   const { user } = useUser();
-  const loading = true;
+  const {
+    data: recentRides,
+    loading,
+    error,
+  } = useFetch<Ride[]>(`/(api)/ride/${user?.id}`);
 
   useEffect(() => {
     const requestLocation = async () => {
@@ -48,6 +53,7 @@ const Home = () => {
   }, []);
 
   const handleSignOut = () => {};
+
   const handleDestinationPress = (location: {
     latitude: number;
     longitude: number;
@@ -60,7 +66,7 @@ const Home = () => {
   return (
     <SafeAreaView className="flex-1">
       <FlatList
-        data={recentRides.slice(0, 3)}
+        data={recentRides?.slice(0, 3)}
         renderItem={({ item }) => <RideCard ride={item} />}
         className="px-5"
         keyboardShouldPersistTaps="handled"

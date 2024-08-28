@@ -69,7 +69,8 @@ export const POST = async (request: Request) => {
     `;
 
     return Response.json({ data: response[0] }, { status: 201 });
-  } catch {
+  } catch (error) {
+    console.error('Error inserting data into recent_rides:', { error });
     return Response.json({ error: 'Internal Server Error' }, { status: 500 });
   }
 };

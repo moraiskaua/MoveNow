@@ -70,7 +70,7 @@ export const Payment = ({
             });
 
             if (result.client_secret) {
-              await fetchAPI('(api)/ride/create', {
+              await fetchAPI('/(api)/ride/create', {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json',
