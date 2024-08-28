@@ -49,7 +49,7 @@ const Home = () => {
     };
 
     requestLocation();
-  }, []);
+  }, [setUserLocation]);
 
   const handleSignOut = () => {
     signOut();

@@ -31,7 +31,7 @@ export const Payment = ({
   const [success, setSuccess] = useState(false);
 
   const initializePaymentSheet = async () => {
-    const { error } = await initPaymentSheet({
+    await initPaymentSheet({
       merchantDisplayName: 'MoveNow',
       intentConfiguration: {
         mode: {

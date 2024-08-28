@@ -1,7 +1,6 @@
 import { CustomButton } from '@/components/CustomButton';
 import { InputField } from '@/components/InputField';
 import { Image, ScrollView, Text, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import OAuth from './OAuth';
 import { Link, useRouter } from 'expo-router';
 import { routes } from '@/contants/routes';
@@ -36,7 +35,7 @@ const Signin = () => {
     } catch (err: any) {
       setError(err.errors[0].longMessage);
     }
-  }, [isLoaded, form.email, form.password]);
+  }, [isLoaded, form.email, form.password, router, signIn, setActive]);
 
   return (
     <ScrollView className="flex-1 bg-white">

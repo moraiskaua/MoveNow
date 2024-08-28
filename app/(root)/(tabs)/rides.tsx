@@ -1,11 +1,9 @@
-import { GoogleTextInput } from '@/components/GoogleTextInput';
 import { RideCard } from '@/components/RideCard';
 import { images } from '@/contants';
 import { useFetch } from '@/lib/fetch';
 import { Ride } from '@/types/type';
 import { useUser } from '@clerk/clerk-expo';
 import { ActivityIndicator, FlatList, Image, Text, View } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const Rides = () => {

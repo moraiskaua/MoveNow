@@ -8,10 +8,8 @@ import { Image, Text, View } from 'react-native';
 const OAuth = () => {
   const { startOAuthFlow } = useOAuth({ strategy: 'oauth_google' });
   const handleGoogleSignIn = useCallback(async () => {
-    try {
-      const result = await googleOAuth(startOAuthFlow);
-    } catch {}
-  }, []);
+    await googleOAuth(startOAuthFlow);
+  }, [startOAuthFlow]);
 
   return (
     <View>

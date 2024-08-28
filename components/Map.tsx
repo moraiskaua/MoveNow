@@ -48,7 +48,14 @@ export const Map = () => {
         destinationLongitude,
       }).then(drivers => setDrivers(drivers as MarkerData[]));
     }
-  }, [markers, destinationLatitude, destinationLongitude]);
+  }, [
+    markers,
+    userLatitude,
+    userLongitude,
+    destinationLatitude,
+    destinationLongitude,
+    setDrivers,
+  ]);
 
   const region = calculateRegion({
     userLongitude,

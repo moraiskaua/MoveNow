@@ -17,12 +17,9 @@ export const POST = async (request: Request) => {
       );
     }
 
-    const paymentMethod = await stripe.paymentMethods.attach(
-      payment_method_id,
-      {
-        customer: customer_id,
-      },
-    );
+    await stripe.paymentMethods.attach(payment_method_id, {
+      customer: customer_id,
+    });
 
     const result = await stripe.paymentIntents.confirm(payment_intent_id, {
       payment_method: payment_method_id,
