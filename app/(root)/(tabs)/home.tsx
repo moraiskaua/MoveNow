@@ -22,14 +22,12 @@ import { Ride } from '@/types/type';
 
 const Home = () => {
   const { setUserLocation, setDestinationLocation } = useLocationStore();
-  const [hasPermissions, setHasPermissions] = useState(false);
+  const [, setHasPermissions] = useState(false);
   const { user } = useUser();
   const { signOut } = useAuth();
-  const {
-    data: recentRides,
-    loading,
-    error,
-  } = useFetch<Ride[]>(`/(api)/ride/${user?.id}`);
+  const { data: recentRides, loading } = useFetch<Ride[]>(
+    `/(api)/ride/${user?.id}`,
+  );
 
   useEffect(() => {
     const requestLocation = async () => {
