@@ -70,16 +70,6 @@ const Layout = () => {
         }}
       />
       <Tabs.Screen
-        name="chat"
-        options={{
-          title: 'Conversa',
-          headerShown: false,
-          tabBarIcon: ({ focused }) => (
-            <TabIcon focused={focused} source={icons.chat} />
-          ),
-        }}
-      />
-      <Tabs.Screen
         name="profile"
         options={{
           title: 'Perfil',
