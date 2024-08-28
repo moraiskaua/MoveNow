@@ -4,7 +4,7 @@ import { Map } from '@/components/Map';
 import { RideCard } from '@/components/RideCard';
 import { icons, images } from '@/contants';
 import { useLocationStore } from '@/store/locationStore';
-import { useUser } from '@clerk/clerk-expo';
+import { useAuth, useUser } from '@clerk/clerk-expo';
 import { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
@@ -24,6 +24,7 @@ const Home = () => {
   const { setUserLocation, setDestinationLocation } = useLocationStore();
   const [hasPermissions, setHasPermissions] = useState(false);
   const { user } = useUser();
+  const { signOut } = useAuth();
   const {
     data: recentRides,
     loading,
@@ -52,7 +53,10 @@ const Home = () => {
     requestLocation();
   }, []);
 
-  const handleSignOut = () => {};
+  const handleSignOut = () => {
+    signOut();
+    router.replace(routes.auth['sign-in']);
+  };
 
   const handleDestinationPress = (location: {
     latitude: number;
@@ -92,7 +96,7 @@ const Home = () => {
             <View className="flex flex-row items-center justify-between my-5">
               <Text className="text-xl font-JakartaExtraBold">
                 Bem-vindo,{' '}
-                {user?.firstName ||
+                {user?.firstName?.split(' ')[0] ||
                   user?.emailAddresses[0].emailAddress.split('@')[0]}{' '}
                 👋
               </Text>

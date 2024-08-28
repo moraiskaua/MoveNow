@@ -1,9 +1,17 @@
 import { CustomButton } from '@/components/CustomButton';
 import { icons } from '@/contants';
+import { googleOAuth } from '@/lib/auth';
+import { useOAuth } from '@clerk/clerk-expo';
+import { useCallback } from 'react';
 import { Image, Text, View } from 'react-native';
 
 const OAuth = () => {
-  const handleGoogleSignIn = async () => {};
+  const { startOAuthFlow } = useOAuth({ strategy: 'oauth_google' });
+  const handleGoogleSignIn = useCallback(async () => {
+    try {
+      const result = await googleOAuth(startOAuthFlow);
+    } catch {}
+  }, []);
 
   return (
     <View>

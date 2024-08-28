@@ -82,8 +82,6 @@ const Signin = () => {
             <Text className="text-primary-500">Crie agora</Text>
           </Link>
         </View>
-
-        {/* Verification Modal */}
       </View>
     </ScrollView>
   );
